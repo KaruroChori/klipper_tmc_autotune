@@ -1,25 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 
-KLIPPER_PATH="${HOME}/klipper"
+KLIPPER_PATH="${HOME}/printer_software/klipper"
 AUTOTUNETMC_PATH="${HOME}/klipper_tmc_autotune"
-
-set -eu
-export LC_ALL=C
-
-
-function preflight_checks {
-    if [ "$EUID" -eq 0 ]; then
-        echo "[PRE-CHECK] This script must not be run as root!"
-        exit -1
-    fi
-
-    if [ "$(sudo systemctl list-units --full -all -t service --no-legend | grep -F 'klipper.service')" ]; then
-        printf "[PRE-CHECK] Klipper service found! Continuing...\n\n"
-    else
-        echo "[ERROR] Klipper service not found, please install Klipper first!"
-        exit -1
-    fi
-}
 
 function check_download {
     local autotunedirname autotunebasename
@@ -42,14 +24,9 @@ function check_download {
 
 function link_extension {
     echo "[INSTALL] Linking extension to Klipper..."
-    ln -srfn "${AUTOTUNETMC_PATH}/autotune_tmc.py" "${KLIPPER_PATH}/klippy/extras/autotune_tmc.py"
-    ln -srfn "${AUTOTUNETMC_PATH}/motor_constants.py" "${KLIPPER_PATH}/klippy/extras/motor_constants.py"
-    ln -srfn "${AUTOTUNETMC_PATH}/motor_database.cfg" "${KLIPPER_PATH}/klippy/extras/motor_database.cfg"
-}
-
-function restart_klipper {
-    echo "[POST-INSTALL] Restarting Klipper..."
-    sudo systemctl restart klipper
+    ln -sfn "${AUTOTUNETMC_PATH}/autotune_tmc.py" "${KLIPPER_PATH}/klippy/extras/autotune_tmc.py"
+    ln -sfn "${AUTOTUNETMC_PATH}/motor_constants.py" "${KLIPPER_PATH}/klippy/extras/motor_constants.py"
+    ln -sfn "${AUTOTUNETMC_PATH}/motor_database.cfg" "${KLIPPER_PATH}/klippy/extras/motor_database.cfg"
 }
 
 
@@ -59,7 +36,5 @@ printf "======================================\n\n"
 
 
 # Run steps
-preflight_checks
 check_download
 link_extension
-restart_klipper
