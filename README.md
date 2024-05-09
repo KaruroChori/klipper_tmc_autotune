@@ -6,7 +6,7 @@ Base configuration to add to your `printer.cfg` file:
 ```
 [motor_constants bjd42d22-53v02]
 resistance: 2.10
-inductance: 4.60
+inductance: 0.0046
 holding_torque: 0.40
 max_current: 1.50
 steps_per_revolution: 200
