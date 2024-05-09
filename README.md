@@ -1,3 +1,29 @@
+> [!WARNING]  
+> The old 0.11 tmc.py and tmc-*.py in `klippy/extras` will not work with this tool. Please, copy them from the master branch of klipper.
+
+Base configuration to add to your `printer.cfg` file:
+
+```
+[motor_constants bjd42d22-53v02]
+resistance: 2.10
+inductance: 4.60
+holding_torque: 0.40
+max_current: 1.50
+steps_per_revolution: 200
+
+[autotune_tmc stepper_x]
+tuning_goal: auto
+motor: bjd42d22-53v02
+
+[autotune_tmc stepper_y]
+tuning_goal: auto
+motor: bjd42d22-53v02
+
+[autotune_tmc stepper_z]
+tuning_goal: auto
+motor: bjd42d22-53v02
+```
+
 # Klipper TMC Autotune
 
 Klipper extension for automatic configuration and tuning of TMC drivers.
